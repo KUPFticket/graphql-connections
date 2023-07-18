@@ -34,7 +34,7 @@ export interface IConnectionManagerOptions<CursorObj, Node> {
 // tslint:disable:max-classes-per-file
 export default class ConnectionManager<Node = {}> {
     private queryContext: QueryContext;
-    private queryBuilderClass: IQueryBuilder<Knex>;
+    private queryBuilderClass?: typeof QUERY_BUILDERS.Knex;
     private queryBuilder?: IQueryBuilder<Knex>;
     private queryResult?: IQueryResult<Node>;
 
@@ -45,7 +45,7 @@ export default class ConnectionManager<Node = {}> {
         inputArgs: IInputArgs,
         inAttributeMap: IInAttributeMap,
         options?: IConnectionManagerOptions<ICursorObj<string>, Node>,
-        queryBuilderClass?: IQueryBuilder<Knex>
+        queryBuilderClass?: typeof QUERY_BUILDERS.Knex
     ) {
         this.options = options || {};
         this.inAttributeMap = inAttributeMap;
@@ -98,8 +98,7 @@ export default class ConnectionManager<Node = {}> {
     }
 
     private initializeQueryBuilder(queryBuilder: Knex) {
-        type valueof<T> = T[keyof T];
-        let builder: IQueryBuilder<Knex>;
+        let builder: typeof QUERY_BUILDERS.Knex;
 
         // 2. Create QueryBuilder
         if(this.queryBuilderClass) {
