@@ -140,7 +140,7 @@ export default class QueryResult<
         const nodesLength = this.nodes.length;
         return this.nodes.map((node, index) => {
             const position = this.queryContext.isPagingBackwards
-                ? this.queryContext.indexPosition - nodesLength - index
+                ? this.queryContext.indexPosition - nodesLength + index
                 : this.queryContext.indexPosition + index + 1;
 
             return {
