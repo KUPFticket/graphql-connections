@@ -110,8 +110,6 @@ export default class QueryContext implements IQueryContext {
         if (this.previousCursor) {
             const prevCursorObj = this.cursorEncoder.decodeFromCursor(this.previousCursor);
             return prevCursorObj.orderBy;
-        } else if (this.inputArgs.search && !this.inputArgs.orderBy) {
-            return '_relevance';
         } else {
             return this.inputArgs.orderBy || 'id';
         }
