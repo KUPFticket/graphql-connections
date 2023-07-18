@@ -34,6 +34,7 @@ export interface IConnectionManagerOptions<CursorObj, Node> {
 // tslint:disable:max-classes-per-file
 export default class ConnectionManager<Node = {}> {
     private queryContext: QueryContext;
+    private queryBuilderClass: IQueryBuilder<Knex>;
     private queryBuilder?: IQueryBuilder<Knex>;
     private queryResult?: IQueryResult<Node>;
 
@@ -43,13 +44,19 @@ export default class ConnectionManager<Node = {}> {
     constructor(
         inputArgs: IInputArgs,
         inAttributeMap: IInAttributeMap,
-        options?: IConnectionManagerOptions<ICursorObj<string>, Node>
+        options?: IConnectionManagerOptions<ICursorObj<string>, Node>,
+        queryBuilderClass?: IQueryBuilder<Knex>
     ) {
         this.options = options || {};
         this.inAttributeMap = inAttributeMap;
 
         // 1. Create QueryContext
         this.queryContext = new QueryContext(inputArgs, this.options.contextOptions);
+
+        // add queryBuilder if existent.
+        if(queryBuilderClass) {
+            this.queryBuilderClass = queryBuilderClass;
+        }
     }
 
     public createQuery(queryBuilder: Knex) {
@@ -91,17 +98,20 @@ export default class ConnectionManager<Node = {}> {
     }
 
     private initializeQueryBuilder(queryBuilder: Knex) {
-        // 2. Create QueryBuilder
-        const MYSQL_CLIENTS = ['mysql', 'mysql2'];
-        const {client: clientName} = (queryBuilder as any).client.config;
-
         type valueof<T> = T[keyof T];
+        let builder: IQueryBuilder<Knex>;
 
-        let builder: valueof<typeof QUERY_BUILDERS>;
-        if (MYSQL_CLIENTS.includes(clientName)) {
-            builder = QUERY_BUILDERS.KnexMySQL;
+        // 2. Create QueryBuilder
+        if(this.queryBuilderClass) {
+            builder = this.queryBuilderClass;
         } else {
-            builder = QUERY_BUILDERS.Knex;
+            const MYSQL_CLIENTS = ['mysql', 'mysql2'];
+            const {client: clientName} = (queryBuilder as any).client.config;
+            if (MYSQL_CLIENTS.includes(clientName)) {
+                builder = QUERY_BUILDERS.KnexMySQL;
+            } else {
+                builder = QUERY_BUILDERS.Knex;
+            }
         }
 
         this.queryBuilder = new builder(
