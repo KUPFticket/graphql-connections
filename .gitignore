@@ -72,5 +72,4 @@ tmp
 # npmrc
 .npmrc
 
-dist
 .DS_Store
