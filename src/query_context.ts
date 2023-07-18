@@ -132,7 +132,7 @@ export default class QueryContext implements IQueryContext {
             return this.inputArgs.orderDir;
         } else {
             const dir =
-                this.inputArgs.last || this.inputArgs.before || this.inputArgs.search
+                this.inputArgs.last || this.inputArgs.before
                     ? ORDER_DIRECTION.desc
                     : ORDER_DIRECTION.asc;
             return (dir as any) as keyof typeof ORDER_DIRECTION;
@@ -233,7 +233,7 @@ export default class QueryContext implements IQueryContext {
             );
         } else if ((first != null && first <= 0) || (last != null && last <= 0)) {
             throw Error('Page size must be greater than 0');
-        } else if (search && orderDir && orderBy) {
+        } else if (search && orderDir && !orderBy) {
             throw Error(
                 'Search order is implicitly descending. OrderDir should only be provided with an orderBy.'
             );
