@@ -151,7 +151,7 @@ export default class QueryResult<
                     position,
                     search
                 }),
-                node: {...node}
+                node
             };
         });
     }
