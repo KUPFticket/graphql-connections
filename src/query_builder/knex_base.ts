@@ -1,5 +1,5 @@
 import QueryContext from '../query_context';
-import {QueryBuilder as Knex, Where, QueryBuilder} from 'knex';
+import {Knex} from 'knex';
 import {
     IFilterMap,
     IInAttributeMap,
@@ -28,7 +28,7 @@ const defaultFilterMap = {
 
 const defaultFilterTransformer = (filter: IFilter) => filter;
 
-export default class KnexQueryBuilder implements IQueryBuilder<Knex> {
+export default class KnexQueryBuilder implements IQueryBuilder<Knex.QueryBuilder> {
     protected queryContext: QueryContext;
     protected attributeMap: IInAttributeMap;
     protected filterMap: IFilterMap;
@@ -52,7 +52,7 @@ export default class KnexQueryBuilder implements IQueryBuilder<Knex> {
         this.addFilterRecursively = this.addFilterRecursively.bind(this);
     }
 
-    public createQuery(queryBuilder: Knex) {
+    public createQuery(queryBuilder: Knex.QueryBuilder) {
         this.applyLimit(queryBuilder);
         this.applyOrder(queryBuilder);
         this.applyOffset(queryBuilder);
@@ -65,14 +65,14 @@ export default class KnexQueryBuilder implements IQueryBuilder<Knex> {
      *     Note: The limit added to the query builder is limit + 1
      *     to allow us to see if there would be additional pages
      */
-    protected applyLimit(queryBuilder: Knex) {
+    protected applyLimit(queryBuilder: Knex.QueryBuilder) {
         queryBuilder.limit(this.queryContext.limit + 1); // add one to figure out if there are more results
     }
 
     /**
      * Adds the order to the sql query builder.
      */
-    protected applyOrder(queryBuilder: Knex) {
+    protected applyOrder(queryBuilder: Knex.QueryBuilder) {
         // map from node attribute names to sql column names
         const orderBy = this.attributeMap[this.queryContext.orderBy] || this.queryContext.orderBy;
         const direction = this.queryContext.orderDir;
@@ -80,7 +80,7 @@ export default class KnexQueryBuilder implements IQueryBuilder<Knex> {
         queryBuilder.orderBy(orderBy, direction);
     }
 
-    protected applyOffset(queryBuilder: Knex) {
+    protected applyOffset(queryBuilder: Knex.QueryBuilder) {
         const offset = this.queryContext.offset;
         queryBuilder.offset(offset);
     }
@@ -88,7 +88,7 @@ export default class KnexQueryBuilder implements IQueryBuilder<Knex> {
     /**
      * Adds filters to the sql query builder
      */
-    protected applyFilter(queryBuilder: Knex) {
+    protected applyFilter(queryBuilder: Knex.QueryBuilder) {
         queryBuilder.andWhere(k => this.addFilterRecursively(this.queryContext.filters, k));
     }
 
@@ -129,7 +129,7 @@ export default class KnexQueryBuilder implements IQueryBuilder<Knex> {
 
             if (value === null && operator.toLowerCase() === '=') {
                 return [
-                    (builder: QueryBuilder) => {
+                    (builder: Knex) => {
                         builder.whereNull(this.computeFilterField(field));
                     }
                 ];
@@ -137,7 +137,7 @@ export default class KnexQueryBuilder implements IQueryBuilder<Knex> {
 
             if (value === null && operator.toLowerCase() === '<>') {
                 return [
-                    (builder: QueryBuilder) => {
+                    (builder: Knex) => {
                         builder.whereNotNull(this.computeFilterField(field));
                     }
                 ];
@@ -150,9 +150,9 @@ export default class KnexQueryBuilder implements IQueryBuilder<Knex> {
         return [this.computeFilterField(field), this.computeFilterOperator(operator), value];
     }
 
-    private addFilterRecursively(filter: IInputFilter, queryBuilder: Knex) {
+    private addFilterRecursively(filter: IInputFilter, queryBuilder: Knex.QueryBuilder) {
         if (isFilter(filter)) {
-            queryBuilder.where(...(this.filterArgs(filter) as Parameters<Where>));
+            queryBuilder.where(...(this.filterArgs(filter) as Parameters<Knex.Where>));
             return queryBuilder;
         }
 
@@ -160,7 +160,7 @@ export default class KnexQueryBuilder implements IQueryBuilder<Knex> {
         if (filter.and && filter.and.length > 0) {
             filter.and.forEach(f => {
                 if (isFilter(f)) {
-                    queryBuilder.andWhere(...(this.filterArgs(f) as Parameters<Where>));
+                    queryBuilder.andWhere(...(this.filterArgs(f) as Parameters<Knex.Where>));
                 } else {
                     queryBuilder.andWhere(k => this.addFilterRecursively(f, k));
                 }
@@ -170,7 +170,7 @@ export default class KnexQueryBuilder implements IQueryBuilder<Knex> {
         if (filter.or && filter.or.length > 0) {
             filter.or.forEach(f => {
                 if (isFilter(f)) {
-                    queryBuilder.orWhere(...(this.filterArgs(f) as Parameters<Where>));
+                    queryBuilder.orWhere(...(this.filterArgs(f) as Parameters<Knex.Where>));
                 } else {
                     queryBuilder.orWhere(k => this.addFilterRecursively(f, k));
                 }
@@ -180,7 +180,7 @@ export default class KnexQueryBuilder implements IQueryBuilder<Knex> {
         if (filter.not && filter.not.length > 0) {
             filter.not.forEach(f => {
                 if (isFilter(f)) {
-                    queryBuilder.andWhereNot(...(this.filterArgs(f) as Parameters<Where>));
+                    queryBuilder.andWhereNot(...(this.filterArgs(f) as Parameters<Knex.Where>));
                 } else {
                     queryBuilder.andWhereNot(k => this.addFilterRecursively(f, k));
                 }

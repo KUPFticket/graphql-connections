@@ -1,4 +1,4 @@
-import { QueryBuilder as Knex } from 'knex';
+import { Knex } from 'knex';
 import * as QUERY_BUILDERS from './query_builder';
 import { ICursorObj, IInAttributeMap, IInputArgs, QueryBuilderOptions, IQueryResultOptions, IQueryContextOptions } from './types';
 /**
@@ -25,7 +25,7 @@ export default class ConnectionManager<Node = {}> {
     private inAttributeMap;
     private options;
     constructor(inputArgs: IInputArgs, inAttributeMap: IInAttributeMap, options?: IConnectionManagerOptions<ICursorObj<string>, Node>, queryBuilderClass?: typeof QUERY_BUILDERS.Knex);
-    createQuery(queryBuilder: Knex): Knex<any, any>;
+    createQuery(queryBuilder: Knex.QueryBuilder): Knex.QueryBuilder<any, any>;
     addResult(result: KnexQueryResult): this;
     get pageInfo(): {
         hasNextPage: boolean;

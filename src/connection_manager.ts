@@ -1,4 +1,4 @@
-import {QueryBuilder as Knex} from 'knex';
+import {Knex} from 'knex';
 import QueryContext from './query_context';
 import * as QUERY_BUILDERS from './query_builder';
 import {
@@ -35,7 +35,7 @@ export interface IConnectionManagerOptions<CursorObj, Node> {
 export default class ConnectionManager<Node = {}> {
     private queryContext: QueryContext;
     private queryBuilderClass?: typeof QUERY_BUILDERS.Knex;
-    private queryBuilder?: IQueryBuilder<Knex>;
+    private queryBuilder?: IQueryBuilder<Knex.QueryBuilder>;
     private queryResult?: IQueryResult<Node>;
 
     private inAttributeMap: IInAttributeMap;
@@ -59,7 +59,7 @@ export default class ConnectionManager<Node = {}> {
         }
     }
 
-    public createQuery(queryBuilder: Knex) {
+    public createQuery(queryBuilder: Knex.QueryBuilder) {
         // 2. Create QueryBuilder
         if (!this.queryBuilder) {
             this.initializeQueryBuilder(queryBuilder);
@@ -97,7 +97,7 @@ export default class ConnectionManager<Node = {}> {
         return this.queryResult.edges;
     }
 
-    private initializeQueryBuilder(queryBuilder: Knex) {
+    private initializeQueryBuilder(queryBuilder: Knex.QueryBuilder) {
         let builder: typeof QUERY_BUILDERS.Knex;
 
         // 2. Create QueryBuilder

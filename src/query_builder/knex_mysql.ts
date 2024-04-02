@@ -1,5 +1,5 @@
 import KnexBaseQueryBuilder from './knex_base';
-import Knex from 'knex';
+import { Knex } from 'knex';
 import {QueryContext} from '../index';
 import {IInAttributeMap, IKnexMySQLQueryBuilderOptions, QueryBuilderOptions} from '../types';
 import createRawFromQueryBuilder from './create_raw_from_query_builder';

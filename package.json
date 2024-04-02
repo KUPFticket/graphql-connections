@@ -59,11 +59,11 @@
         "@types/dotenv": "^6.1.1",
         "@types/faker": "^4.1.5",
         "@types/jest": "^24.0.9",
+        "@types/luxon": "1.27.1",
         "@types/superagent": "^4.1.1",
         "@types/supertest": "^2.0.7",
-        "@types/luxon": "1.27.1",
-        "knex": "0.20.13",
         "graphql": "14.7.0",
+        "knex": "3.1.0",
         "luxon": "2.0.1"
     },
     "devDependencies": {
@@ -78,7 +78,7 @@
         "rimraf": "^3.0.2",
         "rollup": "^1.2.2",
         "rollup-plugin-typescript2": "^0.24.3",
-        "sqlite3": "5.0.2",
+        "sqlite3": "5.1.7",
         "supertest": "^4.0.2",
         "ts-jest": "^24.0.0",
         "ts-node": "^8.0.3",
