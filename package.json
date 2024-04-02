@@ -64,7 +64,7 @@
         "@types/supertest": "^2.0.7",
         "graphql": "14.7.0",
         "knex": "3.1.0",
-        "luxon": "2.0.1"
+        "luxon": "3.4.4"
     },
     "devDependencies": {
         "apollo-server-koa": "^2.4.8",
