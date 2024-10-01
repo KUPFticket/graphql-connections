@@ -948,4 +948,4 @@ const gqlTypes = {
 };
 // tslint:enable: cyclomatic-complexity
 
-export { ConnectionManager, CursorEncoder, filter_transformers as FilterTransformers, KnexQueryBuilder as Knex, KnexMySQLFullTextQueryBuilder as KnexMySQL, QueryContext, QueryResult, gqlTypes, resolvers, typeDefs };
+export { ConnectionManager, CursorEncoder, filter_transformers as FilterTransformers, KnexQueryBuilder as Knex, KnexMySQLFullTextQueryBuilder as KnexMySQL, QueryContext, QueryResult, coerceStringValue, gqlTypes, resolvers, typeDefs };

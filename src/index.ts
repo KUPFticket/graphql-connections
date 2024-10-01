@@ -8,3 +8,4 @@ export {Knex, KnexMySQL} from './query_builder';
 export * from './types';
 
 export {typeDefs, resolvers, gqlTypes} from './graphql_schema';
+export { coerceStringValue } from './coerce_string_value';

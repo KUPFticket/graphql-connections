@@ -959,6 +959,7 @@ exports.Knex = KnexQueryBuilder;
 exports.KnexMySQL = KnexMySQLFullTextQueryBuilder;
 exports.QueryContext = QueryContext;
 exports.QueryResult = QueryResult;
+exports.coerceStringValue = coerceStringValue;
 exports.gqlTypes = gqlTypes;
 exports.resolvers = resolvers;
 exports.typeDefs = typeDefs;
