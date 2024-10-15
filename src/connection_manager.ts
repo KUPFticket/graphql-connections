@@ -23,7 +23,7 @@ import type {
  *
  */
 
-type KnexQueryResult = Array<{ [attributeName: string]: any }>;
+type KnexQueryResult = Array<{ [attributeName: string]: unknown }>;
 
 export interface IConnectionManagerOptions<CursorObj, Node> {
   contextOptions?: IQueryContextOptions<CursorObj>;
@@ -31,7 +31,7 @@ export interface IConnectionManagerOptions<CursorObj, Node> {
   builderOptions?: QueryBuilderOptions;
 }
 
-// tslint:disable:max-classes-per-file
+// biome-ignore lint/complexity/noBannedTypes: <explanation>
 export default class ConnectionManager<Node = {}> {
   private queryContext: QueryContext;
   private queryBuilderClass?: typeof QUERY_BUILDERS.Knex;
@@ -108,8 +108,11 @@ export default class ConnectionManager<Node = {}> {
       builder = this.queryBuilderClass;
     } else {
       const MYSQL_CLIENTS = ['mysql', 'mysql2'];
-      const { client: clientName } = (queryBuilder as any).client.config;
-      if (MYSQL_CLIENTS.includes(clientName)) {
+      const { client: clientName } = queryBuilder.client.config;
+      if (
+        typeof clientName === 'string' &&
+        MYSQL_CLIENTS.includes(clientName)
+      ) {
         builder = QUERY_BUILDERS.KnexMySQL;
       } else {
         builder = QUERY_BUILDERS.Knex;

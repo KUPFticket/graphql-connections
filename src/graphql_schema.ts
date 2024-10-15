@@ -1,5 +1,3 @@
-// tslint:disable: cyclomatic-complexity
-
 import {
   GraphQLInputObjectType,
   GraphQLInt,
@@ -12,7 +10,6 @@ import {
 import InputUnionType from './input_union_type.js';
 
 /** @see https://stackoverflow.com/a/49911974 */
-// tslint:disable-next-line: variable-name
 const FilterValue = new GraphQLScalarType({
   name: 'FilterValue',
   serialize: (value) => value,
@@ -241,5 +238,3 @@ const gqlTypes = {
 };
 
 export { typeDefs, resolvers, gqlTypes };
-
-// tslint:enable: cyclomatic-complexity

@@ -123,10 +123,8 @@ export default class KnexQueryBuilder
   }
 
   // [string, string, string | number | null]
-  // tslint:disable-next-line: cyclomatic-complexity
   private filterArgs(filter: IFilter) {
     if (this.useSuggestedValueLiteralTransforms) {
-      // tslint:disable-next-line: no-shadowed-variable
       const { field, operator, value } = this.filterTransformer({
         ...filter,
         value:
@@ -177,8 +175,8 @@ export default class KnexQueryBuilder
       return queryBuilder;
     }
 
-    // tslint:disable-next-line
     if (filter.and && filter.and.length > 0) {
+      // biome-ignore lint/complexity/noForEach: <explanation>
       filter.and.forEach((f) => {
         if (isFilter(f)) {
           queryBuilder.andWhere(
@@ -191,6 +189,7 @@ export default class KnexQueryBuilder
     }
 
     if (filter.or && filter.or.length > 0) {
+      // biome-ignore lint/complexity/noForEach: <explanation>
       filter.or.forEach((f) => {
         if (isFilter(f)) {
           queryBuilder.orWhere(
@@ -203,6 +202,7 @@ export default class KnexQueryBuilder
     }
 
     if (filter.not && filter.not.length > 0) {
+      // biome-ignore lint/complexity/noForEach: <explanation>
       filter.not.forEach((f) => {
         if (isFilter(f)) {
           queryBuilder.andWhereNot(

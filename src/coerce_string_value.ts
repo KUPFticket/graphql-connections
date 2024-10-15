@@ -1,6 +1,5 @@
 const hasDotRegexp = /\./gi;
 
-// tslint:disable-next-line: cyclomatic-complexity
 export function coerceStringValue(value: string) {
   if (value === '') {
     return value;
@@ -13,11 +12,11 @@ export function coerceStringValue(value: string) {
    * parse a float but it will be lossy, e.g.
    * parseInt('1.24242', 10) === 1
    */
-  if (hasDotRegexp.test(value) && !isNaN(Number(value))) {
+  if (hasDotRegexp.test(value) && !Number.isNaN(Number(value))) {
     return Number(value);
   }
 
-  if (!isNaN(Number(value))) {
+  if (!Number.isNaN(Number(value))) {
     const parsed = Number(value);
 
     return parsed;

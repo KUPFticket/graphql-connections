@@ -87,7 +87,7 @@ export default class KnexMySQLFullTextQueryBuilder extends KnexBaseQueryBuilder 
     // create comma separated list of columns to search over
     const columns = (this.searchColumns || []).reduce(
       (acc, columnName, index) => {
-        return index === 0 ? acc + columnName : acc + ', ' + columnName;
+        return index === 0 ? acc + columnName : `${acc}, ${columnName}`;
       },
       '',
     );
@@ -99,7 +99,6 @@ export default class KnexMySQLFullTextQueryBuilder extends KnexBaseQueryBuilder 
   private isKnexMySQLBuilderOptions(
     options?: QueryBuilderOptions,
   ): options is IKnexMySQLQueryBuilderOptions {
-    // tslint:disable-next-line
     if (options == null) {
       return false;
     }

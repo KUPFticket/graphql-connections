@@ -112,33 +112,31 @@ export default class QueryContext implements IQueryContext {
         this.previousCursor,
       );
       return prevCursorObj.orderBy;
-    } else {
-      return this.inputArgs.orderBy || 'id';
     }
+    return this.inputArgs.orderBy || 'id';
   }
 
   /**
    * Sets the orderDirection for the desired query result
    */
   private calcOrderDirection(): keyof typeof ORDER_DIRECTION {
-    // tslint:disable-next-line
     if (this.previousCursor) {
       const prevCursorObj = this.cursorEncoder.decodeFromCursor(
         this.previousCursor,
       );
       return prevCursorObj.orderDir;
-    } else if (
+    }
+    if (
       this.inputArgs.orderDir &&
       Object.keys(ORDER_DIRECTION).includes(this.inputArgs.orderDir)
     ) {
       return this.inputArgs.orderDir;
-    } else {
-      const dir =
-        this.inputArgs.last || this.inputArgs.before
-          ? ORDER_DIRECTION.desc
-          : ORDER_DIRECTION.asc;
-      return dir as keyof typeof ORDER_DIRECTION;
     }
+    const dir =
+      this.inputArgs.last || this.inputArgs.before
+        ? ORDER_DIRECTION.desc
+        : ORDER_DIRECTION.asc;
+    return dir as keyof typeof ORDER_DIRECTION;
   }
 
   /**
@@ -211,36 +209,43 @@ export default class QueryContext implements IQueryContext {
     const { first, last, before, after, orderBy, orderDir, search } =
       this.inputArgs;
 
-    // tslint:disable
     if (first && last) {
       throw Error('Can not mix `first` and `last`');
-    } else if (before && after) {
+    }
+    if (before && after) {
       throw Error('Can not mix `before` and `after`');
-    } else if (before && first) {
+    }
+    if (before && first) {
       throw Error('Can not mix `before` and `first`');
-    } else if (after && last) {
+    }
+    if (after && last) {
       throw Error('Can not mix `after` and `last`');
-    } else if ((after || before) && orderBy) {
+    }
+    if ((after || before) && orderBy) {
       throw Error('Can not use orderBy with a cursor');
-    } else if ((after || before) && orderDir) {
+    }
+    if ((after || before) && orderDir) {
       throw Error('Can not use orderDir with a cursor');
-    } else if (
+    }
+    if (
       (after || before) &&
       ((this.inputArgs.filter as ICompoundFilter).and ||
         (this.inputArgs.filter as ICompoundFilter).or)
     ) {
       throw Error('Can not use filters with a cursor');
-    } else if (last && !before) {
+    }
+    if (last && !before) {
       throw Error(
         'Can not use `last` without a cursor. Use `first` to set page size on the initial query',
       );
-    } else if ((first != null && first <= 0) || (last != null && last <= 0)) {
+    }
+    if ((first != null && first <= 0) || (last != null && last <= 0)) {
       throw Error('Page size must be greater than 0');
-    } else if (search && orderDir && !orderBy) {
+    }
+    if (search && orderDir && !orderBy) {
       throw Error(
         'Search order is implicitly descending. OrderDir should only be provided with an orderBy.',
       );
     }
-    // tslint:enable
   }
 }

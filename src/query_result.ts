@@ -21,8 +21,9 @@ interface IEdge<Node> {
 }
 
 export default class QueryResult<
-  Result extends Array<{ [field: string]: any }>,
+  Result extends Array<{ [field: string]: unknown }>,
   QueryContext extends IQueryContext,
+  // biome-ignore lint/complexity/noBannedTypes: <explanation>
   Node = {},
 > implements IQueryResult<Node>
 {
@@ -128,7 +129,7 @@ export default class QueryResult<
     if (this.nodeTansformer) {
       nodeTansformer = this.nodeTansformer;
     } else {
-      nodeTansformer = (node: any) => node;
+      nodeTansformer = (node) => node as Node;
     }
 
     return this.result

@@ -45,12 +45,21 @@ export default (
   return new GraphQLScalarType({
     name: typeName,
     description,
-    serialize: (value: any) => String(value),
-    parseValue: (value: any) => {
+    serialize: (value: unknown) => String(value),
+    parseValue: (value: unknown) => {
       const hasType = inputTypes.reduce((acc, t) => {
         try {
-          const result = coerceInputValue(value, t) as any;
-          return result.errors && result.errors.length > 0 ? acc : true;
+          const result = coerceInputValue(value, t) as unknown;
+          if (
+            typeof result === 'object' &&
+            result !== null &&
+            'errors' in result
+          ) {
+            return (result as { errors: unknown[] }).errors.length > 0
+              ? acc
+              : true;
+          }
+          return true;
         } catch (error) {
           return acc;
         }
@@ -61,7 +70,6 @@ export default (
       }
       throw generateInputTypeError(typeName, inputTypes);
     },
-    // tslint:disable-next-line: cyclomatic-complexity
     parseLiteral: (ast) => {
       const compoundFilterScalarType = inputTypes.find(
         (type) => type.name === 'CompoundFilterScalar',
@@ -106,24 +114,18 @@ export default (
         .reduce(
           (acc, fieldName) => {
             if (fieldName === 'field') {
-              return {
-                ...acc,
-                hasField: true,
-              };
+              acc.hasField = true;
+              return acc;
             }
 
             if (fieldName === 'operator') {
-              return {
-                ...acc,
-                hasOperator: true,
-              };
+              acc.hasOperator = true;
+              return acc;
             }
 
             if (fieldName === 'value') {
-              return {
-                ...acc,
-                hasValue: true,
-              };
+              acc.hasValue = true;
+              return acc;
             }
 
             return acc;
@@ -142,9 +144,8 @@ export default (
 
       if (isCompoundFilterScalar) {
         return valueFromAST(ast, compoundFilterScalarType);
-      } else {
-        return valueFromAST(ast, filterScalarType);
       }
+      return valueFromAST(ast, filterScalarType);
     },
   });
 };

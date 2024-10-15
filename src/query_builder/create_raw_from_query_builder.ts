@@ -7,17 +7,15 @@ import type { Knex } from 'knex';
 export default function createRawFromQueryBuilder(
   builder: Knex.QueryBuilder,
   rawSqlQuery: string,
-  bindings?: any,
+  bindings?: Knex.RawBinding[] | Knex.ValueDict,
 ) {
   const {
     client,
   }: {
     client: IStolenClient;
-  } = builder as any;
+  } = builder;
 
-  const args = [rawSqlQuery, bindings].filter((arg) => arg);
-
-  return client.raw.apply(client, args as any);
+  return client.raw.apply(client, [rawSqlQuery, bindings ?? []]);
 }
 
 interface IStolenClient {

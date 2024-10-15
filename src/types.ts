@@ -116,7 +116,7 @@ export interface IQueryResult<Node> {
   };
 }
 
-export type NodeTransformer<Node> = (node: any) => Node;
+export type NodeTransformer<Node> = (node: unknown) => Node;
 
 export interface IQueryResultOptions<CursorObj, Node> {
   cursorEncoder?: ICursorEncoder<CursorObj>;

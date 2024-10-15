@@ -12,7 +12,6 @@ function castUnixSecondsFiltersToMysqlTimestamps<
   includeOffset = false,
   includeZone = false,
 ): FilterTransformer {
-  // tslint:disable-next-line: cyclomatic-complexity
   return (filter: IFilter): IFilter => {
     if (
       filterFieldsToCast.includes(filter.field) &&
@@ -38,9 +37,7 @@ function castUnixSecondsFiltersToMysqlTimestamps<
   };
 }
 
-function isNumberOrString(
-  value: unknown,
-): value is string | number {
+function isNumberOrString(value: unknown): value is string | number {
   return ['number', 'string'].includes(typeof value);
 }
 

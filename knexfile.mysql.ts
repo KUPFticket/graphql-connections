@@ -26,8 +26,8 @@ const common = {
     min: 0,
     max: MYSQL_DB_POOL_MAX ? Number.parseInt(MYSQL_DB_POOL_MAX, 10) : 15,
   },
-  migrations: { directory: __dirname + '/db/mysql/migrations' },
-  seeds: { directory: __dirname + '/db/seeds' },
+  migrations: { directory: `${__dirname}/db/mysql/migrations` },
+  seeds: { directory: `${__dirname}/db/seeds` },
 };
 
 export const development = {

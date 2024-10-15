@@ -7,7 +7,7 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "ignore": ["__tests__", "db", "dev", "dist"]
+    "ignore": ["__tests__", "db", "dev", "dist", ".pnp.loader.mjs", ".pnp.cjs"]
   },
   "formatter": {
     "enabled": true,

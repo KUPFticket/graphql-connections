@@ -1,3 +1,4 @@
+// biome-ignore lint/complexity/noStaticOnlyClass: <explanation>
 export default class CursorEncoder {
   public static encodeToCursor<CursorObj>(cursorObj: CursorObj) {
     const buff = Buffer.from(JSON.stringify(cursorObj));

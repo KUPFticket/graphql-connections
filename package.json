@@ -6,9 +6,7 @@
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
   "type": "module",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "scripts": {
     "dev:sqlite": "nodemon -e ts -w ./dev -x npm run ts-node-start:sqlite",
     "ts-node-start:sqlite": "node ./node_modules/.bin/ts-node --project tsconfig.dev.json -r tsconfig-paths/register dev/dev.sqlite.ts",
@@ -81,7 +79,6 @@
     "koa": "^2.15.3",
     "mysql2": "3.11.3",
     "nodemon": "^3.1.7",
-    "prettier": "^3.3.3",
     "rimraf": "^6.0.1",
     "rollup": "^4.24.0",
     "rollup-plugin-dts": "^6.1.1",
