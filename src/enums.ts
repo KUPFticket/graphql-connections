@@ -1,6 +1,6 @@
 export const ORDER_DIRECTION = {
-    asc: 'asc',
-    desc: 'desc'
+  asc: 'asc',
+  desc: 'desc',
 };
 
 // export enum MYSQL_FULL_TEXT_SEARCH_MODIFIER {
