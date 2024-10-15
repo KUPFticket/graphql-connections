@@ -1,6 +1,8 @@
 import typescript from '@rollup/plugin-typescript';
+import del from 'rollup-plugin-delete'
 import dts from 'rollup-plugin-dts';
 import typescriptEngine from 'typescript';
+
 import pkg from './package.json' with { type: 'json' };
 export default [
   {
@@ -55,6 +57,6 @@ export default [
   {
     input: 'dist/types/src/index.d.ts',
     output: [{ file: 'dist/index.d.ts', format: 'esm' }],
-    plugins: [dts()],
+    plugins: [dts(), del({ targets: 'dist/types', hook: 'buildEnd' })],
   },
 ];
