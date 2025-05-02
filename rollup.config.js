@@ -1,5 +1,5 @@
 import typescript from '@rollup/plugin-typescript';
-import del from 'rollup-plugin-delete'
+import del from 'rollup-plugin-delete';
 import dts from 'rollup-plugin-dts';
 import typescriptEngine from 'typescript';
 
@@ -9,14 +9,14 @@ export default [
     input: 'src/index.ts',
     output: [
       {
-        file: pkg.main,
+        file: pkg.require,
         format: 'cjs',
         sourcemap: true,
         exports: 'named',
         name: pkg.name,
       },
       {
-        file: pkg.module,
+        file: pkg.import,
         format: 'es',
         exports: 'named',
         sourcemap: true,
