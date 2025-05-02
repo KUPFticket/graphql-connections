@@ -5,7 +5,7 @@ import {
   valueFromAST,
 } from 'graphql';
 
-import { coerceInputValue } from 'graphql/utilities';
+import { coerceInputValue } from 'graphql';
 
 const printInputType = (type: GraphQLInputObjectType) => {
   const fields = type.getFields();

@@ -67,7 +67,6 @@
     "@rollup/plugin-typescript": "^12.1.2",
     "@tsconfig/node22": "^22.0.1",
     "@types/dotenv": "^8.2.3",
-    "@types/faker": "^6.6.11",
     "@types/jest": "^29.5.14",
     "@types/luxon": "3.6.2",
     "@types/node": "^22.15.3",
