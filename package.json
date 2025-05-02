@@ -7,6 +7,13 @@
   "types": "dist/index.d.ts",
   "type": "module",
   "files": ["dist"],
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "scripts": {
     "dev:mysql": "nodemon -e ts -w ./dev -x npm run ts-node-start:mysql",
     "ts-node-start:mysql": "node ./node_modules/.bin/ts-node -r tsconfig-paths/register dev/dev.mysql.ts",
