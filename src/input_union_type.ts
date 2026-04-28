@@ -1,11 +1,10 @@
 import {
+  coerceInputValue,
   GraphQLError,
   type GraphQLInputObjectType,
   GraphQLScalarType,
   valueFromAST,
 } from 'graphql';
-
-import { coerceInputValue } from 'graphql';
 
 const printInputType = (type: GraphQLInputObjectType) => {
   const fields = type.getFields();
@@ -60,7 +59,7 @@ export default (
               : true;
           }
           return true;
-        } catch (error) {
+        } catch (_error) {
           return acc;
         }
       }, false);

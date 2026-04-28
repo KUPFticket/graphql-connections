@@ -176,7 +176,6 @@ export default class KnexQueryBuilder
     }
 
     if (filter.and && filter.and.length > 0) {
-      // biome-ignore lint/complexity/noForEach: <explanation>
       filter.and.forEach((f) => {
         if (isFilter(f)) {
           queryBuilder.andWhere(
@@ -189,7 +188,6 @@ export default class KnexQueryBuilder
     }
 
     if (filter.or && filter.or.length > 0) {
-      // biome-ignore lint/complexity/noForEach: <explanation>
       filter.or.forEach((f) => {
         if (isFilter(f)) {
           queryBuilder.orWhere(
@@ -202,7 +200,6 @@ export default class KnexQueryBuilder
     }
 
     if (filter.not && filter.not.length > 0) {
-      // biome-ignore lint/complexity/noForEach: <explanation>
       filter.not.forEach((f) => {
         if (isFilter(f)) {
           queryBuilder.andWhereNot(

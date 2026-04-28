@@ -31,8 +31,7 @@ export interface IConnectionManagerOptions<CursorObj, Node> {
   builderOptions?: QueryBuilderOptions;
 }
 
-// biome-ignore lint/complexity/noBannedTypes: <explanation>
-export default class ConnectionManager<Node = {}> {
+export default class ConnectionManager<Node = unknown> {
   private queryContext: QueryContext;
   private queryBuilderClass?: typeof QUERY_BUILDERS.Knex;
   private queryBuilder?: IQueryBuilder<Knex.QueryBuilder>;

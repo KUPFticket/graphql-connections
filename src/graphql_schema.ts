@@ -136,7 +136,7 @@ const typeDefs = `
 const createStringScalarType = (name: string, description: string) =>
   new GraphQLScalarType({
     name,
-    description: `String \n\n\ ${description}`,
+    description: `String \n\n ${description}`,
     serialize: GraphQLString.serialize,
     parseLiteral: GraphQLString.parseLiteral,
     parseValue: GraphQLString.parseValue,
@@ -237,4 +237,4 @@ const gqlTypes = {
   after,
 };
 
-export { typeDefs, resolvers, gqlTypes };
+export { gqlTypes, resolvers, typeDefs };

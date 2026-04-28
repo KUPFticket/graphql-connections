@@ -23,8 +23,7 @@ interface IEdge<Node> {
 export default class QueryResult<
   Result extends Array<{ [field: string]: unknown }>,
   QueryContext extends IQueryContext,
-  // biome-ignore lint/complexity/noBannedTypes: <explanation>
-  Node = {},
+  Node = unknown,
 > implements IQueryResult<Node>
 {
   public nodes: Node[];
