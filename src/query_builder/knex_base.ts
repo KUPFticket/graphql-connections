@@ -78,12 +78,15 @@ export default class KnexQueryBuilder
    * Adds the order to the sql query builder.
    */
   protected applyOrder(queryBuilder: Knex.QueryBuilder) {
-    // map from node attribute names to sql column names
-    const orderBy =
-      this.attributeMap[this.queryContext.orderBy] || this.queryContext.orderBy;
+    const orderBy = this.computeOrderField(this.queryContext.orderBy);
+    const idOrderBy = this.attributeMap.id;
     const direction = this.queryContext.orderDir;
 
     queryBuilder.orderBy(orderBy, direction);
+
+    if (idOrderBy && orderBy !== idOrderBy) {
+      queryBuilder.orderBy(idOrderBy, direction);
+    }
   }
 
   protected applyOffset(queryBuilder: Knex.QueryBuilder) {
@@ -108,6 +111,17 @@ export default class KnexQueryBuilder
 
     throw new Error(
       `Filter field '${field}' either does not exist or is not accessible. Check the attribute map`,
+    );
+  }
+
+  private computeOrderField(field: string) {
+    const mappedField = this.attributeMap[field];
+    if (mappedField) {
+      return mappedField;
+    }
+
+    throw new Error(
+      `Order field '${field}' either does not exist or is not accessible. Check the attribute map`,
     );
   }
 
