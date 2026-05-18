@@ -1,6 +1,6 @@
 {
   "name": "@kupfticket/graphql-connections",
-  "version": "10.1.0",
+  "version": "10.1.1",
   "description": "Build and handle Relay-like GraphQL connections using a Knex query builder",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
