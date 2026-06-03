@@ -120,6 +120,10 @@ export default class KnexQueryBuilder
       return mappedField;
     }
 
+    if (field === 'id') {
+      return field;
+    }
+
     throw new Error(
       `Order field '${field}' either does not exist or is not accessible. Check the attribute map`,
     );

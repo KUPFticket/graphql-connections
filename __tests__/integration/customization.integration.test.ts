@@ -2,7 +2,7 @@ import {ConnectionManager, IFilter} from '../../src';
 import knex from 'knex';
 import {test as testConfig} from '../../knexfile.sqlite';
 import {KnexQueryResult} from '../types';
-import {validateNodesHaveAttributes} from '../utils';
+import {rejectionOf, validateNodesHaveAttributes} from '../utils';
 
 const knexClient = knex(testConfig);
 
@@ -96,7 +96,53 @@ describe('Customizing the ConnectionManager', () => {
     });
 
     describe('Order field mapping', function() {
-        it.todo('Order can be a field in the provided attributeMap');
-        it.todo('Order can be a field outside of the provided attributeMap');
+        const attributeMapWithoutId = {
+            username: 'username',
+            firstname: 'firstname',
+            age: 'age',
+            haircolor: 'haircolor',
+            lastname: 'lastname',
+            bio: 'bio'
+        };
+
+        const createConnectionWithoutIdMapping = async (inputArgs = {}) => {
+            const nodeConnection = new ConnectionManager(inputArgs, attributeMapWithoutId);
+            const queryBuilder = knexClient.queryBuilder().from('mock');
+
+            nodeConnection.createQuery(queryBuilder);
+            const result = ((await queryBuilder.select()) || []) as KnexQueryResult;
+            nodeConnection.addResult(result);
+
+            return nodeConnection.edges;
+        };
+
+        it('Can default order by id without id in the provided attributeMap', async () => {
+            const edges = await createConnectionWithoutIdMapping({first: 5});
+
+            expect(edges.map(edge => edge.node.id)).toEqual([1, 2, 3, 4, 5]);
+        });
+
+        it('Can explicitly order by id without id in the provided attributeMap', async () => {
+            const edges = await createConnectionWithoutIdMapping({
+                first: 5,
+                orderBy: 'id',
+                orderDir: 'desc'
+            });
+
+            expect(edges.map(edge => edge.node.id)).toEqual([10000, 9999, 9998, 9997, 9996]);
+        });
+
+        it('Does not make id filterable without id in the provided attributeMap', async () => {
+            const error = await rejectionOf(
+                createConnectionWithoutIdMapping({
+                    first: 5,
+                    filter: {field: 'id', operator: '=', value: '1'}
+                })
+            );
+
+            expect(error.message).toEqual(
+                "Filter field 'id' either does not exist or is not accessible. Check the attribute map"
+            );
+        });
     });
 });
